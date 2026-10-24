@@ -6,22 +6,20 @@ type Mode = "CE" | "RO" | "AC" | "AE";
 type RankedAnswer = { text: string; mode: Mode };
 type Question = { prompt: string; answers: RankedAnswer[]; contextual?: boolean };
 type Profile = {
-  id: string;
+  mode: Mode;
   name: string;
   en: string;
   summary: string;
   strengths: string;
   watch: string;
   recommendation: string;
-  x: "ce" | "mid" | "ac";
-  y: "ro" | "mid" | "ae";
 };
 
 const modeNames: Record<Mode, string> = {
-  CE: "Бодит туршлага (CE)",
-  RO: "Ажиглаж, эргэцүүлэх (RO)",
-  AC: "Онол, учир шалтгаан (AC)",
-  AE: "Туршиж, хэрэгжүүлэх (AE)",
+  CE: "Эрэлхийлэгч (CE)",
+  RO: "Эргэцүүлэгч (RO)",
+  AC: "Онолч (AC)",
+  AE: "Идэвхтэн (AE)",
 };
 
 const questions: Question[] = [
@@ -88,15 +86,10 @@ const questions: Question[] = [
 ];
 
 const profiles: Profile[] = [
-  { id: "imagining", name: "Төсөөлөн сэтгэгч", en: "Imagining", x: "ce", y: "ro", summary: "Та бодит туршлагыг олон өнцгөөс харж, хүний мэдрэмж ба нөхцөл байдлын холбоог олж хардаг.", strengths: "Сонсох, өрөвдөн ойлгох, олон талын санаа гаргах.", watch: "Удаан эргэцүүлэхдээ шийдвэр, үйлдлийг хойшлуулж болзошгүй.", recommendation: "Сайн санаагаа нэг жижиг туршилтаар бодит болгоорой." },
-  { id: "reflecting", name: "Эргэцүүлэн бодогч", en: "Reflecting", x: "mid", y: "ro", summary: "Та ажиглаж, мэдээллийг тайван тунгаан, утга учрыг нь аажмаар бүтээдэг.", strengths: "Анзаарах, дүгнэх, олон эх сурвалжийг нэгтгэх.", watch: "Бэлэн болохыг хүлээсээр эхлэх мөчийг алдах эрсдэлтэй.", recommendation: "Эргэцүүлснийхээ дараа дараагийн нэг тодорхой алхмыг товлоорой." },
-  { id: "analyzing", name: "Задлан шинжлэгч", en: "Analyzing", x: "ac", y: "ro", summary: "Та мэдээллийг бүтэц, учир шалтгаанаар нь ойлгож, баттай дүгнэлтэд хүрэхийг эрхэмлэдэг.", strengths: "Задлан шинжлэх, загварчлах, логик холболт олох.", watch: "Хэт төгс тайлбар эрэхдээ бодит туршлагаас холдож болзошгүй.", recommendation: "Дүгнэлтээ бодит жишээ, хэрэглэгчийн саналтай тулгаж үзээрэй." },
-  { id: "experiencing", name: "Туршлагад тулгуурлагч", en: "Experiencing", x: "ce", y: "mid", summary: "Та хүний бодит явдал, харилцаа, орчныг мэдэрч байж суралцах утга учрыг олдог.", strengths: "Хүмүүстэй холбогдох, нөхцөлийн өнгө аясыг мэдрэх, туршлагаас суралцах.", watch: "Тухайн мөчийн сэтгэгдэлд хэт түшиглэж болзошгүй.", recommendation: "Туршлага бүрийн дараа “ямар зарчим энд ажиллав?” гэж асуугаарай." },
-  { id: "balancing", name: "Тэнцвэртэй хандлагатай", en: "Balancing", x: "mid", y: "mid", summary: "Та бодит байдал, эргэцүүлэл, онол, үйлдлийн хооронд уян хатан шилжих хандлагатай.", strengths: "Өөр нөхцөлд өөр арга сонгох, зуучлах, том зургаар харах.", watch: "Тод ялгарах сонголтоо хойшлуулж болзошгүй.", recommendation: "Тухайн зорилгод хамгийн их нөлөөтэй нэг аргаа зориуд сонгоорой." },
-  { id: "thinking", name: "Онолчилж сэтгэгч", en: "Thinking", x: "ac", y: "mid", summary: "Та ойлголтыг логикоор бүтээж, учир шалтгааныг бодит асуудалтай холбохыг зорьдог.", strengths: "Асуудлыг тодорхойлох, загвар гаргах, чиглэл тогтоох.", watch: "Ашиглах, турших алхам хойшлох магадлалтай.", recommendation: "Санаагаа 30 минутын жижиг туршилтаар шалгаж хэвшээрэй." },
-  { id: "initiating", name: "Санаачлагч", en: "Initiating", x: "ce", y: "ae", summary: "Та шинэ нөхцөлд идэвхтэй оролцож, хийж үзэх явцдаа суралцахыг илүүд үздэг.", strengths: "Шинэ ажлыг эхлүүлэх, боломжийг туршиж үзэх, туршлага дээр үндэслэн дараагийн алхмаа тодорхойлох.", watch: "Хэт хурдан эхэлбэл мэдээлэл, эрсдэлийг дутуу тооцож болзошгүй.", recommendation: "Шинэ зүйл эхлүүлэхийн өмнө юу мэдэхээ тодорхойлж, дараа нь үр дүнгээ эргэн дүгнээрэй." },
-  { id: "acting", name: "Хэрэгжүүлэгч", en: "Acting", x: "mid", y: "ae", summary: "Та мэдлэгээ бодит ажил болгон хувиргаж, төлөвлөсөн зүйлээ хэрэгжүүлж үзэхийг илүүд үздэг.", strengths: "Ажлыг урагшлуулах, төлөвлөгөө хэрэгжүүлэх, хийж үзсэн зүйлээсээ шинэ ойлголт авах.", watch: "Үйлдэлд төвлөрөхдөө үр дүнгээ гүнзгий эргэцүүлэх үе шат орхигдож болзошгүй.", recommendation: "Нэг ажил дууссаны дараа амжилт, өөрчлөх зүйлээ дүгнэх цаг гаргаарай." },
-  { id: "deciding", name: "Шийдвэр гаргагч", en: "Deciding", x: "ac", y: "ae", summary: "Та онолын мэдлэг, логик үндэслэлээ ашиглан асуудлыг шийдвэрлэж, тодорхой үр дүнд хүрэхийг зорьдог.", strengths: "Шийдэл боловсруулах, хувилбар үнэлэх, зорилгодоо хүрэх арга зам тодорхойлох.", watch: "Шийдэлд төвлөрөхдөө бусдын туршлага, өөр өнцгийг орхигдуулж болзошгүй.", recommendation: "Шийдвэрийн өмнө өөр байр суурьтай хүний саналыг сонсож, бодит нөхцөлийг нягтлаарай." },
+  { mode: "CE", name: "Эрэлхийлэгч", en: "Experiencing", summary: "Та бодит туршлага, хүмүүс, орчноо мэдэрч, шинэ зүйлийг эрэлхийлж байж суралцах утга учрыг олдог.", strengths: "Хүмүүстэй холбогдох, нөхцөлийн өнгө аясыг мэдрэх, шинэ туршлагад нээлттэй байх.", watch: "Тухайн мөчийн сэтгэгдэлд хэт түшиглэж, дүгнэлт хийх алхмыг алгасаж болзошгүй.", recommendation: "Туршлага бүрийн дараа “ямар зарчим энд ажиллав?” гэж асуугаарай." },
+  { mode: "RO", name: "Эргэцүүлэгч", en: "Reflecting", summary: "Та ажиглаж, мэдээллийг тайван тунгаан, олон өнцгөөс харж утга учрыг нь аажмаар бүтээдэг.", strengths: "Анзаарах, сонсох, олон эх сурвалжийг нэгтгэн дүгнэх.", watch: "Бэлэн болохыг хүлээсээр эхлэх мөчийг алдах эрсдэлтэй.", recommendation: "Эргэцүүлснийхээ дараа дараагийн нэг тодорхой алхмыг товлоорой." },
+  { mode: "AC", name: "Онолч", en: "Thinking", summary: "Та мэдээллийг бүтэц, учир шалтгаанаар нь ойлгож, логик загвар, баттай дүгнэлтэд хүрэхийг эрхэмлэдэг.", strengths: "Задлан шинжлэх, загварчлах, асуудлыг тодорхойлж чиглэл тогтоох.", watch: "Хэт төгс тайлбар эрэхдээ бодит туршлага, турших алхмаас холдож болзошгүй.", recommendation: "Санаагаа бодит жишээ эсвэл 30 минутын жижиг туршилтаар шалгаж хэвшээрэй." },
+  { mode: "AE", name: "Идэвхтэн", en: "Acting", summary: "Та мэдлэгээ шууд хийж үзэж, туршилт, хэрэгжүүлэлтээр дамжуулан суралцахыг илүүд үздэг.", strengths: "Ажлыг эхлүүлж урагшлуулах, боломжийг туршиж үзэх, үр дүнд хүргэх.", watch: "Хэт хурдан эхэлбэл мэдээлэл, эрсдэлийг дутуу тооцож, үр дүнгээ эргэцүүлэх үе шат орхигдож болзошгүй.", recommendation: "Нэг ажил дууссаны дараа амжилт, өөрчлөх зүйлээ дүгнэх цаг гаргаарай." },
 ];
 
 const emptyRanks = () => questions.map(() => [1, 2, 3, 4]);
@@ -105,9 +98,8 @@ const scoreRanks = (ranks: number[][], indices: number[]) => {
   indices.forEach((qIndex) => questions[qIndex].answers.forEach((answer, aIndex) => { scores[answer.mode] += 5 - ranks[qIndex][aIndex]; }));
   return scores;
 };
-const band = (value: number) => value < -6 ? "ce" : value > 6 ? "ac" : "mid";
-// Y = AE − RO: positive values belong in the active-experimentation row.
-const yBand = (value: number) => value > 6 ? "ae" : value < -6 ? "ro" : "mid";
+// The style is the process with the highest core score; ties go to the earlier mode in CE → RO → AC → AE order.
+const dominantMode = (scores: Record<Mode, number>) => (["CE", "RO", "AC", "AE"] as Mode[]).reduce((best, mode) => scores[mode] > scores[best] ? mode : best);
 
 export default function Home() {
   const [screen, setScreen] = useState<"intro" | "quiz" | "result">("intro");
@@ -130,9 +122,7 @@ export default function Home() {
   const core = useMemo(() => scoreRanks(ranks, Array.from({ length: 12 }, (_, i) => i)), [ranks]);
   const contextual = useMemo(() => scoreRanks(ranks, Array.from({ length: 8 }, (_, i) => i + 12)), [ranks]);
   const allScores = useMemo(() => scoreRanks(ranks, Array.from({ length: 20 }, (_, i) => i)), [ranks]);
-  const x = core.AC - core.CE;
-  const y = core.AE - core.RO;
-  const profile = profiles.find((p) => p.x === band(x) && p.y === yBand(y)) || profiles[4];
+  const profile = profiles.find((p) => p.mode === dominantMode(core)) || profiles[0];
   const q = questions[current];
 
   const setRank = (answerIndex: number, value: number) => setRanks((old) => old.map((row, qi) => {
@@ -154,7 +144,7 @@ export default function Home() {
     c.fillStyle = "#c7d2fe"; c.font = "600 30px Arial"; c.fillText("ТУРШЛАГААР ДАМЖУУЛАН СУРАЛЦАХ", 82, 100);
     c.fillStyle = "white"; c.font = "700 68px Arial"; c.fillText(profile.name, 82, 205); c.font = "400 30px Arial";
     wrap(c, profile.summary, 82, 270, 900, 44);
-    c.fillStyle = "#fef08a"; c.font = "700 30px Arial"; c.fillText(`Үндсэн чиглэл: ${x >= 0 ? "AC" : "CE"} · ${y >= 0 ? "AE" : "RO"}`, 82, 500);
+    c.fillStyle = "#fef08a"; c.font = "700 30px Arial"; c.fillText(`Хамгийн өндөр оноо: ${profile.mode} · ${core[profile.mode]} / 48`, 82, 500);
     c.fillStyle = "rgba(255,255,255,.75)"; c.font = "400 25px Arial"; c.fillText("Энэ нь v1-ийн өөрийгөө эргэцүүлэх сорилын үр дүн юм.", 82, 555);
     const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png")); if (!blob) return;
     const file = new File([blob], "surah-handlaga.png", { type: "image/png" });
@@ -167,9 +157,9 @@ export default function Home() {
   if (screen === "quiz") return <main className="site-shell quiz-shell"><header className="topbar"><button className="text-button" onClick={() => setScreen("intro")}>← Гарах</button><span>Суралцах хандлага</span><span>{current + 1} / 20</span></header><div className="progress"><i style={{ width: `${((current + 1) / questions.length) * 100}%` }} /></div><section className="question-wrap"><p className="section-tag">{q.contextual ? "НӨХЦӨЛ БАЙДЛЫН АСУУЛТ" : "ҮНДСЭН ХАНДЛАГА"}</p><h1>{q.prompt}</h1><p className="helper">Өгүүлбэр бүрт 1–4 гэсэн давхцахгүй эрэмбэ сонгоно уу.</p><div className="rank-list">{q.answers.map((answer, i) => <div className="answer-card" key={answer.text}><p>{answer.text}</p><div className="rank-controls" aria-label={`${i + 1}-р өгүүлбэрийн эрэмбэ`}>{[1, 2, 3, 4].map((n) => <button key={n} className={ranks[current][i] === n ? "chosen" : ""} onClick={() => setRank(i, n)} aria-label={`${n}-р эрэмбэ`}>{n}</button>)}</div></div>)}</div><div className="navigation"><button className="secondary" disabled={current === 0} onClick={() => setCurrent((n) => n - 1)}>← Өмнөх</button>{current === 19 ? <button className="primary" onClick={finish}>Үр дүнг харах →</button> : <button className="primary" onClick={() => { setCurrent((n) => n + 1); window.scrollTo({ top: 0, behavior: "smooth" }); }}>Дараах →</button>}</div><p className="saved">✓ Хариулт тань энэ төхөөрөмжид автоматаар хадгалагдана.</p></section></main>;
 
   const coreRows: Mode[] = ["CE", "RO", "AC", "AE"];
-  return <main className="site-shell results"><header className="topbar"><span className="brand-mark">С</span><span>Таны үр дүн</span><span className="v1">v1.0</span></header><section className="result-hero"><p className="eyebrow">ТАНЫ СУРАЛЦАХ ХАНДЛАГА</p><h1>{profile.name}</h1><p className="english">{profile.en}</p><p>{profile.summary}</p><button className="share-button" onClick={shareResult}>↗ Үр дүнгийн зураг хадгалах / хуваалцах</button></section><section className="result-section"><div className="profile-layout"><div className="matrix"><p className="matrix-title">Таны байрлал</p><div className="matrix-grid">{profiles.filter(p => p.y === "ro").map(p => <MatrixCell key={p.id} p={p} active={p.id === profile.id}/>) }{profiles.filter(p => p.y === "mid").map(p => <MatrixCell key={p.id} p={p} active={p.id === profile.id}/>) }{profiles.filter(p => p.y === "ae").map(p => <MatrixCell key={p.id} p={p} active={p.id === profile.id}/>) }</div><div className="axis"><span>← Бодит туршлага (CE)</span><span>Онол, учир шалтгаан (AC) →</span></div><p className="axis-vertical">Дээд: ажиглаж, эргэцүүлэх (RO) · Доод: туршиж, хэрэгжүүлэх (AE)</p></div><div className="profile-copy"><h2>Танд ажиглагдсан хандлага</h2><p><b>Давуу тал:</b> {profile.strengths}</p><p><b>Анхаарах зүйл:</b> {profile.watch}</p><p><b>Хөгжүүлэх санаа:</b> {profile.recommendation}</p></div></div></section><section className="result-section score-section"><div><p className="section-tag">20 АСУУЛТЫН НИЙТ ОНОО</p><h2>Дөрвөн үйл явцын зураглал</h2>{coreRows.map(mode => <ScoreBar key={mode} label={modeNames[mode]} value={allScores[mode]} max={80} />)}</div><div className="score-note"><p className="section-tag">ҮНДСЭН 12 АСУУЛТ</p><h2>Профайл тооцсон чиглэл</h2><div className="direction"><span>AC − CE</span><b>{x > 0 ? "+" : ""}{x}</b></div><div className="direction"><span>AE − RO</span><b>{y > 0 ? "+" : ""}{y}</b></div><p>±6 босго ашигласан түр ангилал. Эерэг Y утга нь туршиж, хэрэгжүүлэх (AE) чиглэлийг, сөрөг утга нь ажиглаж, эргэцүүлэх (RO) чиглэлийг заана.</p></div></section><section className="result-section context-section"><p className="section-tag">СҮҮЛИЙН 8 АСУУЛТ</p><h2>Нөхцөл байдал дахь харьцуулалт</h2><p className="context-intro">Та бодит ажил, баг, шийдвэрийн жишээ дээр хэрхэн ханддагаа эндээс харж болно. Энэ нь үндсэн профайлыг солихгүй, харин түүнийг баяжуулна.</p><div className="context-grid">{coreRows.map(mode => <div className="compare" key={mode}><span>{mode}</span><b>{contextual[mode]}</b><small>{modeNames[mode].replace(/ \(.+/, "")}</small></div>)}</div></section><section className="disclaimer"><h2>Үр дүнгээ хэрхэн ашиглах вэ?</h2><p>Энэ үр дүн нь таны чадвар, оюуны түвшин, ирээдүйн амжилтыг хэмжихгүй. Хүн бүр нөхцөлөөсөө шалтгаалан дөрвөн үйл явцыг ашиглаж, туршлагаар дамжуулан суралцах арга барилаа тэлэх боломжтой.</p><button className="secondary" onClick={retake}>↻ Дахин бөглөх</button></section><footer>Колбын үзэл санаанаас сэдэвлэсэн анхны, өөрийгөө эргэцүүлэх сорил. Албан ёсны KELP үнэлгээ биш.</footer></main>;
+  return <main className="site-shell results"><header className="topbar"><span className="brand-mark">С</span><span>Таны үр дүн</span><span className="v1">v1.0</span></header><section className="result-hero"><p className="eyebrow">ТАНЫ СУРАЛЦАХ ХАНДЛАГА</p><h1>{profile.name}</h1><p className="english">{profile.en}</p><p>{profile.summary}</p><button className="share-button" onClick={shareResult}>↗ Үр дүнгийн зураг хадгалах / хуваалцах</button></section><section className="result-section"><div className="profile-layout"><div className="matrix"><p className="matrix-title">Таны байрлал</p><div className="matrix-grid">{(["CE", "RO", "AE", "AC"] as Mode[]).map(mode => { const p = profiles.find(item => item.mode === mode)!; return <MatrixCell key={p.mode} p={p} active={p.mode === profile.mode}/>; })}</div><p className="axis-vertical">Суралцах мөчлөг: Эрэлхийлэгч → Эргэцүүлэгч → Онолч → Идэвхтэн</p></div><div className="profile-copy"><h2>Танд ажиглагдсан хандлага</h2><p><b>Давуу тал:</b> {profile.strengths}</p><p><b>Анхаарах зүйл:</b> {profile.watch}</p><p><b>Хөгжүүлэх санаа:</b> {profile.recommendation}</p></div></div></section><section className="result-section score-section"><div><p className="section-tag">20 АСУУЛТЫН НИЙТ ОНОО</p><h2>Дөрвөн үйл явцын зураглал</h2>{coreRows.map(mode => <ScoreBar key={mode} label={modeNames[mode]} value={allScores[mode]} max={80} />)}</div><div className="score-note"><p className="section-tag">ҮНДСЭН 12 АСУУЛТ</p><h2>Хэв маягийг тооцсон оноо</h2>{coreRows.map(mode => <div className="direction" key={mode}><span>{modeNames[mode]}</span><b>{core[mode]}</b></div>)}<p>Эхний 12 асуултад хамгийн өндөр оноо авсан үйл явц таны суралцах хэв маягийг тодорхойлно. Үйл явц бүрийн дээд оноо 48.</p></div></section><section className="result-section context-section"><p className="section-tag">СҮҮЛИЙН 8 АСУУЛТ</p><h2>Нөхцөл байдал дахь харьцуулалт</h2><p className="context-intro">Та бодит ажил, баг, шийдвэрийн жишээ дээр хэрхэн ханддагаа эндээс харж болно. Энэ нь үндсэн профайлыг солихгүй, харин түүнийг баяжуулна.</p><div className="context-grid">{coreRows.map(mode => <div className="compare" key={mode}><span>{mode}</span><b>{contextual[mode]}</b><small>{modeNames[mode].replace(/ \(.+/, "")}</small></div>)}</div></section><section className="disclaimer"><h2>Үр дүнгээ хэрхэн ашиглах вэ?</h2><p>Энэ үр дүн нь таны чадвар, оюуны түвшин, ирээдүйн амжилтыг хэмжихгүй. Хүн бүр нөхцөлөөсөө шалтгаалан дөрвөн үйл явцыг ашиглаж, туршлагаар дамжуулан суралцах арга барилаа тэлэх боломжтой.</p><button className="secondary" onClick={retake}>↻ Дахин бөглөх</button></section><footer>Колбын үзэл санаанаас сэдэвлэсэн анхны, өөрийгөө эргэцүүлэх сорил. Албан ёсны KELP үнэлгээ биш.</footer></main>;
 }
 
-function MatrixCell({ p, active }: { p: Profile; active: boolean }) { return <div className={`matrix-cell ${active ? "active" : ""}`}><span>{p.name}</span>{active && <b>● Та энд</b>}</div>; }
+function MatrixCell({ p, active }: { p: Profile; active: boolean }) { return <div className={`matrix-cell ${active ? "active" : ""}`}><span>{p.name}</span><small>{p.mode}</small>{active && <b>● Та энд</b>}</div>; }
 function ScoreBar({ label, value, max }: { label: string; value: number; max: number }) { return <div className="score-row"><div><span>{label}</span><b>{value}</b></div><div className="bar"><i style={{ width: `${(value / max) * 100}%` }} /></div></div>; }
 function wrap(c: CanvasRenderingContext2D, text: string, x: number, y: number, maxWidth: number, lineHeight: number) { let line = ""; let yy = y; text.split(" ").forEach(word => { const test = `${line}${word} `; if (c.measureText(test).width > maxWidth && line) { c.fillText(line, x, yy); line = `${word} `; yy += lineHeight; } else line = test; }); c.fillText(line, x, yy); }
