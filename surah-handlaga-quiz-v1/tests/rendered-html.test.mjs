@@ -19,7 +19,7 @@ test("quiz source includes the complete v1 assessment flow", async () => {
 test("project metadata is ready for a static Netlify deployment", async () => {
   const [netlify, metadata, packageJson] = await Promise.all([
     readFile(new URL("netlify.toml", root), "utf8"),
-    readFile(new URL("app/layout.tsx", root), "utf8"),
+    readFile(new URL("index.html", root), "utf8"),
     readFile(new URL("package.json", root), "utf8"),
   ]);
 

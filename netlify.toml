@@ -1,0 +1,8 @@
+# The app lives in a subfolder; build from there.
+[build]
+  base = "surah-handlaga-quiz-v1"
+  command = "npm run build"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "22"
